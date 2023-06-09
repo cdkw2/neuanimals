@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Daily Fox Image</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+
+    #fox-container {
+      max-width: 500px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      text-align: center;
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    #fox-img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+      margin-right: 10px;
+    }
+
+    .btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div id="fox-container">
+    <h1>Daily Fox Image</h1>
+    <img id="fox-img" src="" alt="Fox of the day">
+    <a class="btn" href="#" onclick="getNewFoxImage()">Get New Image</a>
+    <a class="btn" href="#" onclick="downloadFoxImage()">Download Image</a>
+  </div>
+
+  <script>
+    function getNewFoxImage() {
+      fetch('https://randomfox.ca/floof/?ref=apilist.fun')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('fox-img').src = data.image;
+        })
+        .catch(error => {
+          console.log('An error occurred while fetching the image:', error);
+        });
+    }
+
+    function downloadFoxImage() {
+      const foxImgUrl = document.getElementById('fox-img').src;
+      fetch(foxImgUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'fox_image.jpg';
+          link.click();
+        })
+        .catch(error => {
+          console.log('An error occurred while downloading the image:', error);
+        });
+    }
+    getNewFoxImage();
+  </script>
+</body>
+</html>
